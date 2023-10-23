@@ -98,13 +98,13 @@ class DoingPanorama:
         # Blend the two images together
 
         # Display the blended image
-        cv2.imshow('Blended Image', img_blended)
+        # cv2.imshow('Blended Image', img_blended)
 
         # Wait for the user to press a key before closing the window
-        cv2.waitKey(0)
+        # cv2.waitKey(0)
 
         # Close all windows
-        cv2.destroyAllWindows()
+        # cv2.destroyAllWindows()
 
 
     def create_panorama(self):

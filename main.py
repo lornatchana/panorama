@@ -20,13 +20,13 @@ class DoingPanorama:
         # we are reading images
         # The flag 1 specifies that the image should be read in color mode.
         # The flag 0 specifies that the image should be read in grayscale mode.
-        images = ["img1.jpg", "img2.jpg"]
+        self.images = ["img1.jpg", "img2.jpg"]
         img1 = cv2.imread('img1.jpg', 1)
         img2 = cv2.imread('img2.jpg', 1)
 
         # remove colors on the two images
-        img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-        img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+        img1 = cv2.cvtColor(img1, cv2.IMREAD_COLOR)
+        img2 = cv2.cvtColor(img2, cv2.IMREAD_COLOR)
         # Using sift for recovering features of images
         sift = cv2.xfeatures2d.SIFT_create()
 
@@ -84,12 +84,27 @@ class DoingPanorama:
         wrapped_image = cv2.warpPerspective(self.img1, self.homography, (self.img2.shape[1], self.img2.shape[0]))
         # The cv2.addWeighted() function will combine the two aligned images to create a panorama.
         # blends the two images wrapped_image and self.img2 together to create a new image img_blended.
-        # The cv2.addWeighted() function takes four arguments:The first image to blend, The weight of the first image,
-        # The second image to blend,The weight of the second image, The gamma correction value.
+        # The cv2.addWeighted() function takes four arguments:
+        #
+        # The first image to blend.
+        # The weight of the first image.
+        # The second image to blend.
+        # The weight of the second image.
+        # The gamma correction value.
         # The cv2.addWeighted() function will calculate a weighted average of the two input images,
         # using the specified weights.
         # The gamma correction value is used to adjust the brightness and contrast of the blended image.:
         img_blended = cv2.addWeighted(wrapped_image, 0.2, self.img2, 0.2, 0.3)
+        # Blend the two images together
+
+        # Display the blended image
+        cv2.imshow('Blended Image', img_blended)
+
+        # Wait for the user to press a key before closing the window
+        cv2.waitKey(0)
+
+        # Close all windows
+        cv2.destroyAllWindows()
 
 
     def create_panorama(self):
@@ -97,9 +112,9 @@ class DoingPanorama:
         try:
             # creation of an array of images containing  images
 
-            images = ["img1.jpg", "img2.jpg"]
+
             # load images
-            for img_name in images:
+            for img_name in self.images:
                 # reading of every image in images
                 # After reading in the image data will be stored in a cv::Mat object.
                 img = cv2.imread(cv2.samples.findFile(img_name))
@@ -131,7 +146,6 @@ class DoingPanorama:
 
         except Exception as ex:
             print(ex)
-
 
 new_panorama = DoingPanorama("img11.jpg")
 new_panorama.features_extraction()
